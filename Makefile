@@ -1,5 +1,5 @@
 postgres:
-	docker run --name postgres_test -p 5555:5555 -e POSTGRES_USER=root_test -e POSTGRES_PASSWORD=secret -d postgres
+	docker run --name postgres_test -e POSTGRES_USER=root_test -e POSTGRES_PASSWORD=secret -p 5555:5432 -d postgres
 
 createdb:
 	docker exec -it postgres_test createdb --username=root_test --owner=root_test simple_bank
@@ -15,5 +15,8 @@ migratedown:
 
 sqlc: ## run application
 	sqlc generate
+
+test:
+	go test -v -cover ./...
 
 .PHONY: postgres createdb dropdb migrateup migratedown
